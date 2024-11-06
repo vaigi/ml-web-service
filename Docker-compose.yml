@@ -1,0 +1,16 @@
+#version: '3'
+services:
+  flask:
+    build: .
+    #command: flask run --host=0.0.0.0
+    # gunicorn -- для запуска на продакшн-сервере
+    command: gunicorn -b 0.0.0.0:5000 --reload hello:app
+    environment: 
+      - FLASK_APP=hello.py
+      - FLASK_DEBUG=1
+      #системная переменная для того, чтобы измения стразу появлялись на странице
+      - PYTHONUNBUFFERED=True 
+    ports:
+      - "5000:5000"
+    volumes:
+     - ./:/root
